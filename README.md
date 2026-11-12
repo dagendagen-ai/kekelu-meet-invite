@@ -20,7 +20,7 @@
 ```js
 const CONFIG = {
   invitee: "可可露",
-  sender: "我",
+  sender: "袁伯焘",
 };
 ```
 
