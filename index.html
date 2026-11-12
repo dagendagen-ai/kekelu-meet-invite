@@ -3,29 +3,29 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-    <meta name="theme-color" content="#f4e9df" />
+    <meta name="theme-color" content="#09090b" />
     <meta
       name="description"
-      content="给可可露的一封圣诞节约会邀请，拆开后一起挑选想做的事。"
+      content="回石家庄之后，给可可露的一封电影感圣诞节约会邀请。"
     />
-    <title>给可可露的圣诞节邀请</title>
+    <title>回石家庄之后 · 给可可露的圣诞节邀请</title>
     <style>
       :root {
-        --paper: #f7eee5;
-        --paper-deep: #ead7ca;
-        --ink: #34221f;
-        --muted: #806b64;
-        --wine: #7f263e;
-        --wine-dark: #5b1729;
-        --pine: #285243;
-        --pine-dark: #183a2f;
-        --rose: #d98590;
-        --rose-light: #f2c8ca;
-        --gold: #b8864e;
-        --gold-light: #ebd2ad;
-        --white: #fffaf5;
-        --line: rgba(91, 50, 45, 0.14);
-        --shadow: 0 24px 70px rgba(75, 33, 36, 0.14);
+        --paper: #08090b;
+        --paper-deep: #1a1113;
+        --ink: #f5e8d8;
+        --muted: #bba59d;
+        --wine: #8d1c2b;
+        --wine-dark: #3c0710;
+        --pine: #1e5a4e;
+        --pine-dark: #0b2b27;
+        --rose: #d56067;
+        --rose-light: #27302c;
+        --gold: #f0a34a;
+        --gold-light: #ffd58b;
+        --white: #171214;
+        --line: rgba(255, 232, 205, 0.14);
+        --shadow: 0 28px 80px rgba(0, 0, 0, 0.48);
         --serif: "Songti SC", "STSong", "Noto Serif SC", "SimSun", serif;
         --sans: "PingFang SC", "Microsoft YaHei", "Noto Sans SC", sans-serif;
       }
@@ -35,7 +35,7 @@
       }
 
       html {
-        background: var(--paper);
+        background: #070809;
         color: var(--ink);
         font-family: var(--sans);
         -webkit-font-smoothing: antialiased;
@@ -48,17 +48,19 @@
         margin: 0;
         overflow-x: hidden;
         background:
-          radial-gradient(circle at 10% 8%, rgba(226, 161, 160, 0.28), transparent 30rem),
-          radial-gradient(circle at 90% 86%, rgba(40, 82, 67, 0.19), transparent 30rem),
-          linear-gradient(145deg, #fbf5ee 0%, var(--paper) 52%, #eddbcf 100%);
+          radial-gradient(circle at 10% 8%, rgba(142, 28, 43, 0.34), transparent 32rem),
+          radial-gradient(circle at 94% 80%, rgba(21, 91, 79, 0.24), transparent 30rem),
+          radial-gradient(circle at 50% 12%, rgba(240, 163, 74, 0.09), transparent 22rem),
+          linear-gradient(158deg, #0b090b 0%, #07090a 54%, #10090d 100%);
       }
 
       body::before {
         position: fixed;
         inset: 0;
-        z-index: -2;
+        z-index: 6;
         content: "";
-        opacity: 0.26;
+        opacity: 0.16;
+        mix-blend-mode: soft-light;
         pointer-events: none;
         background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.16'/%3E%3C/svg%3E");
       }
@@ -916,10 +918,12 @@
 
       .music-toggle {
         display: flex;
+        width: 46px;
         min-height: 46px;
         align-items: center;
+        justify-content: center;
         gap: 10px;
-        padding: 8px 14px 8px 9px;
+        padding: 8px;
         border: 1px solid rgba(255, 248, 239, 0.34);
         border-radius: 999px;
         color: #fffaf4;
@@ -968,9 +972,19 @@
       }
 
       .music-meta {
-        display: grid;
+        display: none;
         min-width: 0;
         text-align: left;
+      }
+
+      .music-dock.is-open .music-toggle {
+        width: auto;
+        justify-content: flex-start;
+        padding: 8px 14px 8px 9px;
+      }
+
+      .music-dock.is-open .music-meta {
+        display: grid;
       }
 
       .music-title {
@@ -1106,6 +1120,641 @@
         bottom: 112px;
       }
 
+      /* Cinematic night edition */
+      .app {
+        position: relative;
+        z-index: 2;
+      }
+
+      .light-leak {
+        position: absolute;
+        top: -20%;
+        left: -28%;
+        width: 74%;
+        height: 70%;
+        background:
+          linear-gradient(122deg, transparent 20%, rgba(238, 136, 55, 0.17) 46%, transparent 70%),
+          radial-gradient(ellipse, rgba(190, 45, 44, 0.17), transparent 67%);
+        filter: blur(24px);
+        opacity: 0.82;
+        transform: rotate(-8deg);
+        animation: leak-breathe 10s ease-in-out infinite alternate;
+      }
+
+      @keyframes leak-breathe {
+        to {
+          opacity: 0.52;
+          transform: translate3d(5%, 3%, 0) rotate(-3deg) scale(1.08);
+        }
+      }
+
+      .rain-layer {
+        position: absolute;
+        inset: 0;
+        background-image: repeating-linear-gradient(
+          104deg,
+          transparent 0,
+          transparent 28px,
+          rgba(221, 239, 232, 0.045) 29px,
+          transparent 31px,
+          transparent 64px
+        );
+        opacity: 0.48;
+        animation: rain-slide 14s linear infinite;
+      }
+
+      @keyframes rain-slide {
+        to {
+          background-position: -380px 620px;
+        }
+      }
+
+      .bokeh {
+        position: absolute;
+        border-radius: 50%;
+        filter: blur(10px);
+        opacity: 0.42;
+        animation: bokeh-float 13s ease-in-out infinite;
+      }
+
+      .bokeh--one {
+        top: 12%;
+        left: -8%;
+        width: 150px;
+        height: 150px;
+        border: 1px solid rgba(255, 190, 96, 0.3);
+        background: radial-gradient(circle, rgba(255, 183, 74, 0.22), transparent 67%);
+      }
+
+      .bokeh--two {
+        top: 27%;
+        right: -13%;
+        width: 210px;
+        height: 210px;
+        border: 1px solid rgba(92, 176, 144, 0.19);
+        background: radial-gradient(circle, rgba(38, 132, 104, 0.17), transparent 68%);
+        animation-delay: -5s;
+      }
+
+      .bokeh--three {
+        top: 51%;
+        left: 4%;
+        width: 92px;
+        height: 92px;
+        background: radial-gradient(circle, rgba(218, 77, 44, 0.17), transparent 70%);
+        animation-delay: -8s;
+      }
+
+      .bokeh--four {
+        right: 16%;
+        bottom: 18%;
+        width: 112px;
+        height: 112px;
+        background: radial-gradient(circle, rgba(255, 203, 115, 0.16), transparent 70%);
+        animation-delay: -3s;
+      }
+
+      @keyframes bokeh-float {
+        0%,
+        100% {
+          translate: 0 0;
+        }
+        50% {
+          translate: 13px -19px;
+        }
+      }
+
+      .cityline {
+        position: absolute;
+        right: -4%;
+        bottom: -7px;
+        left: -4%;
+        height: 210px;
+        opacity: 0.42;
+        mask-image: linear-gradient(to top, black 26%, transparent 100%);
+      }
+
+      .cityline svg {
+        width: 100%;
+        height: 100%;
+      }
+
+      .citylights {
+        fill: none;
+        stroke: rgba(244, 170, 79, 0.6);
+        stroke-width: 2;
+        stroke-linecap: round;
+      }
+
+      .topbar {
+        color: rgba(255, 231, 199, 0.7);
+      }
+
+      .brand {
+        color: var(--gold-light);
+        text-shadow: 0 0 18px rgba(240, 163, 74, 0.3);
+      }
+
+      .brand-mark {
+        border-color: rgba(240, 163, 74, 0.45);
+        background: rgba(141, 28, 43, 0.18);
+        box-shadow:
+          inset 0 0 12px rgba(240, 163, 74, 0.15),
+          0 0 22px rgba(141, 28, 43, 0.2);
+      }
+
+      .edition {
+        max-width: 47%;
+        overflow: hidden;
+        font-size: 9px;
+        letter-spacing: 0.14em;
+        text-overflow: ellipsis;
+      }
+
+      .screen {
+        position: relative;
+      }
+
+      .eyebrow,
+      .step-label {
+        color: var(--gold);
+        text-shadow: 0 0 20px rgba(240, 163, 74, 0.18);
+      }
+
+      .eyebrow::before {
+        box-shadow: 0 0 10px rgba(240, 163, 74, 0.55);
+      }
+
+      h1,
+      h2 {
+        text-shadow:
+          0 3px 26px rgba(0, 0, 0, 0.42),
+          0 0 28px rgba(240, 163, 74, 0.04);
+      }
+
+      .welcome-title {
+        max-width: 11em;
+        font-size: clamp(36px, 9.5vw, 56px);
+        line-height: 1.16;
+      }
+
+      .accent {
+        color: transparent;
+        background: linear-gradient(95deg, #ffd083 0%, #e6764a 42%, #c94850 78%, #f2b15f 100%);
+        background-clip: text;
+        -webkit-background-clip: text;
+        filter: drop-shadow(0 0 16px rgba(225, 106, 68, 0.2));
+      }
+
+      .lead {
+        color: var(--muted);
+      }
+
+      .hero-card {
+        border-color: rgba(240, 163, 74, 0.24);
+        background:
+          linear-gradient(135deg, rgba(54, 18, 23, 0.91), rgba(11, 15, 15, 0.94)),
+          var(--white);
+        box-shadow:
+          0 30px 76px rgba(0, 0, 0, 0.42),
+          inset 0 1px 0 rgba(255, 232, 202, 0.07),
+          inset 0 0 55px rgba(240, 104, 62, 0.045);
+      }
+
+      .hero-card::after {
+        border-color: rgba(240, 163, 74, 0.22);
+        box-shadow:
+          0 0 0 17px rgba(240, 163, 74, 0.025),
+          0 0 0 36px rgba(30, 90, 78, 0.05),
+          0 0 50px rgba(240, 163, 74, 0.08);
+      }
+
+      .hero-card::before {
+        z-index: 2;
+        color: #ffc66d;
+        font-size: 15px;
+        letter-spacing: 0.08em;
+        text-shadow: 0 0 18px rgba(240, 163, 74, 0.7);
+      }
+
+      .ticket-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin: -4px 0 20px;
+        padding-bottom: 12px;
+        border-bottom: 1px dashed rgba(255, 224, 187, 0.17);
+        color: rgba(255, 212, 153, 0.68);
+        font-size: 8px;
+        font-weight: 700;
+        letter-spacing: 0.16em;
+      }
+
+      .hero-to {
+        color: var(--gold);
+      }
+
+      .hero-name {
+        color: var(--ink);
+        text-shadow: 0 0 22px rgba(255, 195, 117, 0.15);
+      }
+
+      .hero-line {
+        color: #f1dccc;
+      }
+
+      .ticket-route {
+        display: grid;
+        grid-template-columns: auto 1fr auto;
+        gap: 12px;
+        align-items: end;
+        margin: 24px 0 19px;
+      }
+
+      .ticket-stop {
+        display: grid;
+        gap: 5px;
+      }
+
+      .ticket-stop--end {
+        text-align: right;
+      }
+
+      .ticket-stop span {
+        color: rgba(255, 231, 199, 0.48);
+        font-size: 8px;
+        letter-spacing: 0.18em;
+      }
+
+      .ticket-stop strong {
+        font-family: var(--serif);
+        font-size: 18px;
+        font-weight: 500;
+      }
+
+      .ticket-track {
+        position: relative;
+        display: flex;
+        align-items: center;
+        height: 25px;
+        margin-bottom: 1px;
+      }
+
+      .ticket-track::before {
+        width: 100%;
+        height: 1px;
+        content: "";
+        background: repeating-linear-gradient(
+          90deg,
+          rgba(240, 163, 74, 0.55) 0 3px,
+          transparent 3px 8px
+        );
+      }
+
+      .ticket-track::after {
+        position: absolute;
+        right: 0;
+        color: #ffd391;
+        content: "✦";
+        font-size: 12px;
+        text-shadow: 0 0 12px rgba(255, 180, 85, 0.65);
+        transform: translate(1px, -1px);
+      }
+
+      .signature {
+        border-color: rgba(255, 232, 205, 0.12);
+        color: rgba(255, 229, 198, 0.58);
+      }
+
+      .wax-seal {
+        color: #ffd6ad;
+        background:
+          radial-gradient(circle at 34% 26%, #ba4f43, transparent 25%),
+          linear-gradient(145deg, #8d1f2b, #39080d);
+        box-shadow:
+          inset 0 0 0 3px rgba(255, 220, 183, 0.08),
+          0 0 28px rgba(195, 60, 43, 0.35);
+      }
+
+      .mood-strip {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 9px;
+        margin-top: 26px;
+      }
+
+      .mood-card {
+        position: relative;
+        min-height: 124px;
+        padding: 16px 12px 13px;
+        overflow: hidden;
+        border: 1px solid rgba(255, 230, 200, 0.11);
+        border-radius: 16px;
+        background: rgba(15, 13, 14, 0.67);
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.025);
+      }
+
+      .mood-card::after {
+        position: absolute;
+        right: -18px;
+        bottom: -20px;
+        width: 68px;
+        height: 68px;
+        border-radius: 50%;
+        content: "";
+        background: radial-gradient(circle, rgba(240, 163, 74, 0.18), transparent 70%);
+      }
+
+      .mood-card:nth-child(2)::after {
+        background: radial-gradient(circle, rgba(42, 118, 97, 0.25), transparent 70%);
+      }
+
+      .mood-card:nth-child(3)::after {
+        background: radial-gradient(circle, rgba(158, 33, 49, 0.28), transparent 70%);
+      }
+
+      .mood-index {
+        display: block;
+        margin-bottom: 27px;
+        color: var(--gold);
+        font-size: 8px;
+        letter-spacing: 0.16em;
+      }
+
+      .mood-card strong {
+        display: block;
+        margin-bottom: 6px;
+        font-family: var(--serif);
+        font-size: 15px;
+        font-weight: 500;
+      }
+
+      .mood-card small {
+        color: var(--muted);
+        font-size: 9px;
+        line-height: 1.55;
+      }
+
+      .whisper {
+        margin: 22px 3px 0;
+        color: rgba(255, 224, 188, 0.49);
+        font-family: var(--serif);
+        font-size: 12px;
+        font-style: italic;
+        letter-spacing: 0.06em;
+        text-align: center;
+      }
+
+      .action-zone {
+        margin-top: 24px;
+      }
+
+      .btn--primary {
+        color: #1b0a09;
+        background: linear-gradient(110deg, #ffd38a 0%, #ef9c4e 38%, #c34d3d 72%, #8e1e2d 100%);
+        box-shadow:
+          0 13px 32px rgba(107, 20, 29, 0.36),
+          0 0 24px rgba(240, 163, 74, 0.13);
+        font-weight: 800;
+      }
+
+      .btn--primary:hover {
+        box-shadow:
+          0 18px 38px rgba(107, 20, 29, 0.44),
+          0 0 30px rgba(240, 163, 74, 0.2);
+      }
+
+      .btn--secondary {
+        color: var(--gold-light);
+        border-color: rgba(240, 163, 74, 0.27);
+        background: rgba(255, 246, 229, 0.045);
+      }
+
+      .btn--ghost {
+        color: rgba(255, 225, 190, 0.56);
+      }
+
+      .note {
+        color: rgba(255, 228, 195, 0.5);
+        border-color: rgba(240, 163, 74, 0.14);
+        background: rgba(9, 12, 12, 0.52);
+      }
+
+      .counter {
+        color: var(--muted);
+        border-color: rgba(255, 226, 194, 0.13);
+        background: rgba(20, 16, 17, 0.7);
+      }
+
+      .counter-dot {
+        background: rgba(255, 220, 180, 0.16);
+      }
+
+      .counter-dot.is-on {
+        background: var(--gold);
+        box-shadow: 0 0 8px rgba(240, 163, 74, 0.7);
+      }
+
+      .progress span {
+        background: rgba(255, 231, 199, 0.1);
+      }
+
+      .progress span::after {
+        background: linear-gradient(90deg, #8e1e2d, #ef9c4e, #2a806c);
+        box-shadow: 0 0 10px rgba(240, 163, 74, 0.2);
+      }
+
+      .choice-card {
+        color: var(--ink);
+        border-color: rgba(255, 230, 201, 0.1);
+        background:
+          linear-gradient(145deg, rgba(35, 26, 28, 0.72), rgba(10, 14, 14, 0.78));
+      }
+
+      .choice-card:hover {
+        border-color: rgba(240, 163, 74, 0.38);
+        box-shadow:
+          0 14px 30px rgba(0, 0, 0, 0.28),
+          0 0 25px rgba(240, 163, 74, 0.07);
+      }
+
+      .choice-card.is-selected {
+        border-color: rgba(255, 184, 83, 0.72);
+        background:
+          linear-gradient(145deg, rgba(79, 25, 28, 0.9), rgba(14, 46, 40, 0.66));
+        box-shadow:
+          0 16px 32px rgba(0, 0, 0, 0.32),
+          inset 0 0 28px rgba(240, 163, 74, 0.055);
+      }
+
+      .choice-card.is-selected::after {
+        color: #1a0908;
+        background: var(--gold-light);
+        box-shadow: 0 0 14px rgba(240, 163, 74, 0.45);
+      }
+
+      .choice-icon {
+        color: var(--gold);
+        background: rgba(240, 163, 74, 0.09);
+      }
+
+      .choice-desc,
+      .hint {
+        color: var(--muted);
+      }
+
+      .pill {
+        color: var(--ink);
+        border-color: rgba(255, 230, 201, 0.12);
+        background: rgba(25, 20, 21, 0.72);
+      }
+
+      .pill.is-selected {
+        color: #160a08;
+        border-color: var(--gold-light);
+        background: linear-gradient(120deg, #ffd084, #d66a46);
+        box-shadow: 0 0 20px rgba(240, 163, 74, 0.16);
+      }
+
+      .field {
+        color: var(--ink);
+        border-color: rgba(255, 229, 198, 0.13);
+        background: rgba(20, 16, 17, 0.8);
+      }
+
+      .field::placeholder {
+        color: rgba(204, 177, 168, 0.48);
+      }
+
+      .date-wrap svg {
+        color: var(--gold);
+      }
+
+      .summary-card {
+        border-color: rgba(240, 163, 74, 0.22);
+        background:
+          linear-gradient(150deg, rgba(69, 21, 26, 0.92), rgba(10, 25, 22, 0.9)),
+          var(--white);
+        box-shadow:
+          0 24px 60px rgba(0, 0, 0, 0.42),
+          inset 0 0 55px rgba(240, 163, 74, 0.035);
+      }
+
+      .summary-card::before {
+        border-color: rgba(255, 221, 179, 0.13);
+      }
+
+      .summary-head {
+        border-color: rgba(255, 228, 195, 0.13);
+      }
+
+      .summary-row dt {
+        color: rgba(255, 219, 178, 0.53);
+      }
+
+      .summary-promise {
+        border-color: rgba(255, 219, 178, 0.17);
+        color: var(--gold-light);
+      }
+
+      .decline-symbol {
+        color: var(--gold);
+        border-color: rgba(240, 163, 74, 0.25);
+        background: rgba(22, 16, 17, 0.7);
+        box-shadow: 0 0 30px rgba(240, 163, 74, 0.08);
+      }
+
+      /* Dark music and entry surfaces */
+      .sound-gate {
+        background:
+          radial-gradient(circle at 18% 12%, rgba(145, 29, 45, 0.46), transparent 26rem),
+          radial-gradient(circle at 82% 86%, rgba(25, 91, 76, 0.34), transparent 28rem),
+          linear-gradient(145deg, #08090b, #140a0d 64%, #08120f);
+      }
+
+      .sound-card {
+        border-color: rgba(240, 163, 74, 0.2);
+        background: rgba(18, 13, 15, 0.9);
+        box-shadow:
+          0 35px 90px rgba(0, 0, 0, 0.6),
+          inset 0 1px 0 rgba(255, 234, 209, 0.04);
+      }
+
+      .sound-card p {
+        color: var(--muted);
+      }
+
+      .sound-cover-wrap::before,
+      .sound-cover-wrap::after {
+        border-color: rgba(240, 163, 74, 0.3);
+      }
+
+      .music-toggle {
+        border-color: rgba(255, 219, 169, 0.18);
+        color: var(--ink);
+        background: linear-gradient(135deg, rgba(93, 17, 28, 0.97), rgba(9, 42, 36, 0.97));
+        box-shadow:
+          0 12px 32px rgba(0, 0, 0, 0.42),
+          0 0 24px rgba(240, 163, 74, 0.06);
+      }
+
+      .music-hint {
+        color: rgba(255, 226, 193, 0.55);
+      }
+
+      .music-panel {
+        border-color: rgba(240, 163, 74, 0.18);
+        background: rgba(18, 14, 15, 0.96);
+        box-shadow: 0 18px 50px rgba(0, 0, 0, 0.52);
+      }
+
+      .music-track-kicker {
+        color: #f7ad5a;
+      }
+
+      .music-track-title {
+        color: var(--ink);
+      }
+
+      .music-track-artist,
+      .music-source {
+        color: var(--muted);
+      }
+
+      .music-play {
+        color: #180b08;
+        background: linear-gradient(145deg, #ffd28b, #d76243);
+      }
+
+      .music-progress {
+        background: rgba(255, 230, 200, 0.1);
+      }
+
+      .music-source a {
+        color: var(--gold-light);
+      }
+
+      .toast {
+        color: #170b08;
+        background: rgba(255, 208, 133, 0.96);
+        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.38);
+      }
+
+      @media (max-width: 380px) {
+        .mood-card {
+          min-height: 118px;
+          padding: 14px 9px 12px;
+        }
+
+        .mood-card strong {
+          font-size: 13px;
+        }
+
+        .mood-card small {
+          font-size: 8px;
+        }
+      }
+
       @media (max-width: 380px) {
         .app {
           padding-right: 15px;
@@ -1147,6 +1796,12 @@
   </head>
   <body>
     <div class="ambient" aria-hidden="true">
+      <div class="light-leak"></div>
+      <div class="rain-layer"></div>
+      <span class="bokeh bokeh--one"></span>
+      <span class="bokeh bokeh--two"></span>
+      <span class="bokeh bokeh--three"></span>
+      <span class="bokeh bokeh--four"></span>
       <div class="halo halo--one"></div>
       <div class="halo halo--two"></div>
       <span class="petal"></span>
@@ -1159,6 +1814,20 @@
       <span class="snow"></span>
       <span class="snow"></span>
       <span class="snow"></span>
+      <div class="cityline">
+        <svg viewBox="0 0 1440 320" preserveAspectRatio="none">
+          <path
+            d="M0 251h64v-42h22v-30h44v43h26v-66h58v64h35v-24h22v-76h49v80h31v-35h65v32h44v-54h26v54h37v-85h54v87h39v-29h20v29h26v-65h60v67h32v-47h17v-83l9-24 9 24v82h14v-39h56v42h34v-70h80v69h28v-24h48v26h41v-92h51v94h37v-55h20v55h33v-70h63v68h34v-30h17v-113h5l7-34 7 34h5v117h20v-44h53v43h30v-65h49v68h42v-38h17v-21h5l3-109 5-107 5 107 3 109h5v26h17v33h41v-55h59v57h30v-35h21v35h39v-72h60v74h38v-29h17v-56h51v52h29v-44h52v49h36v-67h27v65h38v-35h17v38h43v-53h32v-29h42v29h36v55h35v-10H0Z"
+            fill="#060708"
+          />
+          <g class="citylights">
+            <path d="M151 101v-27M143 114h16M961 80v-92M949 106h24M970 51l-11 22M970 51l11 22" />
+            <path d="M222 166h30M314 151h24M436 141h29M607 143h18M741 147h26M1084 148h28M1266 145h18" />
+            <path d="M0 281c219-24 384-12 558 4s355 5 511-9 251-15 371-5" opacity=".5" />
+            <path d="m0 302 391-28 329 18 345 8 375-20" opacity=".25" />
+          </g>
+        </svg>
+      </div>
     </div>
 
     <main class="app">
@@ -1174,24 +1843,41 @@
           </span>
           给可可露
         </div>
-        <span class="edition">A CHRISTMAS INVITATION</span>
+        <span class="edition">SHIJIAZHUANG · 12.25</span>
       </header>
 
       <section class="screen is-entering" id="screen-welcome" aria-labelledby="welcome-title">
-        <p class="eyebrow">圣诞限定 · 一封认真准备的邀请</p>
-        <h1 id="welcome-title">可可露，<br /><span class="accent">想见你。</span></h1>
+        <p class="eyebrow">回石家庄之后 · 圣诞夜特别邀请</p>
+        <h1 class="welcome-title" id="welcome-title">
+          可可露，<br /><span class="accent">等我回石家庄，</span><br />一起过圣诞吧。
+        </h1>
         <p class="lead">
-          不是随口一问。我把想和你一起做的事，认真写成了一封小小的邀请。
+          不是隔着屏幕随口一问。等回到石家庄，想把这座熟悉城市的圣诞夜，认真留给我们。
         </p>
 
         <article class="hero-card">
+          <div class="ticket-head">
+            <span>SHIJIAZHUANG · CITY DATE PASS</span>
+            <span>DEC / 25</span>
+          </div>
           <div class="hero-to">
             TO
             <span class="hero-name">可可露</span>
           </div>
-          <p class="hero-line">今年的圣诞节，想把其中一段时间留给我们。</p>
+          <div class="ticket-route">
+            <div class="ticket-stop">
+              <span>FROM</span>
+              <strong>异地</strong>
+            </div>
+            <div class="ticket-track" aria-hidden="true"></div>
+            <div class="ticket-stop ticket-stop--end">
+              <span>TO</span>
+              <strong>石家庄</strong>
+            </div>
+          </div>
+          <p class="hero-line">把想见你的路，终点写成石家庄；把圣诞节的一小段时间，留给我们。</p>
           <div class="signature">
-            <span>等你亲手拆开这封信</span>
+            <span>返程之后，等你亲手拆开</span>
             <span class="wax-seal" aria-hidden="true">
               <svg viewBox="0 0 24 24" fill="none">
                 <path
@@ -1202,6 +1888,25 @@
             </span>
           </div>
         </article>
+
+        <div class="mood-strip" aria-label="约会氛围">
+          <div class="mood-card">
+            <span class="mood-index">01 / LIGHTS</span>
+            <strong>暖灯与街角</strong>
+            <small>在冬夜亮起来之前，先见到你。</small>
+          </div>
+          <div class="mood-card">
+            <span class="mood-index">02 / WALK</span>
+            <strong>一起走一段</strong>
+            <small>城市很熟，和你并肩却是新的。</small>
+          </div>
+          <div class="mood-card">
+            <span class="mood-index">03 / US</span>
+            <strong>留一张合影</strong>
+            <small>让那晚有可以反复想起的证据。</small>
+          </div>
+        </div>
+        <p class="whisper">“城市不会替我说喜欢，但我可以。”</p>
 
         <div class="action-zone">
           <button
@@ -1227,8 +1932,8 @@
       </section>
 
       <section class="screen" id="screen-invite" aria-labelledby="invite-title" hidden>
-        <p class="step-label">01 / THE INVITATION</p>
-        <h2 id="invite-title">可可露，愿意和我一起过圣诞节吗？</h2>
+        <p class="step-label">01 / BACK IN SHIJIAZHUANG</p>
+        <h2 id="invite-title">回石家庄以后，愿意和我一起过圣诞节吗？</h2>
         <p class="lead">我会认真准备，也会尊重你的每一个选择。</p>
         <div class="button-stack">
           <button class="btn btn--primary" type="button" id="accept-btn">愿意赴约</button>
@@ -1259,14 +1964,14 @@
       </section>
 
       <section class="screen" id="screen-confirm" aria-labelledby="confirm-title" hidden>
-        <p class="eyebrow">盖章之前，先偷偷提醒一下</p>
+        <p class="eyebrow">回石家庄之后 · 盖章之前提醒一下</p>
         <h2 id="confirm-title">确定之后，可不许偷偷反悔哦。</h2>
         <p class="lead">
           接下来只做一件事：把你的偏好告诉我，我们一起把这场约会安排得刚刚好。
         </p>
         <div class="hero-card">
           <p class="hero-to">INVITATION ACCEPTED</p>
-          <p class="hero-line">申请人：可可露<br />状态：好像要和我一起过圣诞节了</p>
+          <p class="hero-line">申请人：可可露<br />目的地：石家庄<br />状态：好像要和我一起过圣诞节了</p>
           <div class="signature">
             <span>有效期待：认真赴约</span>
             <span class="wax-seal" aria-hidden="true">✓</span>
@@ -1286,8 +1991,8 @@
           <span style="--fill: 20%"></span>
           <span style="--fill: 20%"></span>
         </div>
-        <p class="step-label">02 / THE PLAN · 1—2</p>
-        <h2 id="plan-title">这一天，想和我一起做什么？</h2>
+        <p class="step-label">02 / SHIJIAZHUANG NIGHT · 1—2</p>
+        <h2 id="plan-title">回到石家庄，这一天想一起做什么？</h2>
         <p class="hint">可以选 1—2 项。选多了我怕时间不够认真陪你。</p>
         <div class="choice-grid" id="activity-grid"></div>
         <div class="button-stack">
@@ -1320,7 +2025,7 @@
 
       <section class="screen" id="screen-date" aria-labelledby="date-title" hidden>
         <p class="step-label">04 / THE DAY</p>
-        <h2 id="date-title">把想见面的日子圈出来吧。</h2>
+        <h2 id="date-title">把回石家庄后想见面的日子圈出来。</h2>
         <p class="hint">圣诞节是哪一天不重要，你愿意出现的那一天才重要。</p>
         <div class="date-wrap">
           <input class="field" id="date-input" type="date" aria-label="约会日期" />
@@ -1353,8 +2058,8 @@
 
       <section class="screen" id="screen-place" aria-labelledby="place-title" hidden>
         <p class="step-label">06 / THE PLACE</p>
-        <h2 id="place-title">想在哪儿碰面？</h2>
-        <p class="hint">不用特别精确，给我一个大概方向就好。</p>
+        <h2 id="place-title">想在石家庄的哪儿碰面？</h2>
+        <p class="hint">熟悉的街口也好，想一起第一次去的地方也好。</p>
         <div class="pills" id="place-options"></div>
         <input
           class="field"
@@ -1374,12 +2079,12 @@
       <section class="screen" id="screen-summary" aria-labelledby="summary-title" hidden>
         <p class="step-label">07 / OUR DATE</p>
         <h2 id="summary-title">可可露，约好啦。</h2>
-        <p class="lead">这是我们的约会清单，确认后复制给发起人就好。</p>
+        <p class="lead">这是回石家庄后的约会清单，确认后复制给发起人就好。</p>
 
         <article class="summary-card">
           <div class="summary-head">
-            <p class="summary-kicker">CHRISTMAS DATE CONFIRMATION</p>
-            <p class="summary-title">致 可可露 的约会清单</p>
+            <p class="summary-kicker">SHIJIAZHUANG · CHRISTMAS CONFIRMATION</p>
+            <p class="summary-title">致 可可露 的石家庄约会清单</p>
           </div>
           <dl class="summary-list" id="summary-list"></dl>
           <p class="summary-promise">我会准时到，也会认真准备。<br />期待见到你。</p>
@@ -1425,7 +2130,7 @@
         <div class="music-track">
           <img
             class="music-cover"
-            src="https://is1-ssl.mzstatic.com/image/thumb/Music126/v4/65/c4/a2/65c4a28c-132d-fc45-1921-def3612790d7/06UMGIM18518.rgb.jpg/300x300bb.jpg"
+            src="./assets/music-cover.jpg"
             alt=""
           />
           <div class="music-track-copy">
@@ -1482,6 +2187,7 @@
       const CONFIG = {
         invitee: "可可露",
         sender: "我",
+        city: "石家庄",
       };
 
       const activities = [
@@ -1587,7 +2293,7 @@
       ];
 
       const times = ["午后", "傍晚", "晚上", "一起吃晚饭", "你来定"];
-      const places = ["市中心", "离你近一点", "离我近一点", "熟悉的商圈", "给我惊喜"];
+      const places = ["万象城", "勒泰", "正定古城", "北国商城", "市中心", "听你安排"];
 
       const declineMessage = `${CONFIG.invitee}，谢谢你认真看完这份邀请。我尊重你的选择，也谢谢你愿意给我一个明确的答案。祝你圣诞快乐，也祝你每天都开心。`;
 
@@ -1632,10 +2338,12 @@
         showToast.timer = setTimeout(() => toast.classList.remove("is-visible"), 2200);
       }
 
-      async function startMusic() {
-        musicPanel.hidden = false;
-        musicDock.classList.add("is-open");
-        musicToggle.setAttribute("aria-expanded", "true");
+      async function startMusic(showPanel = true) {
+        if (showPanel) {
+          musicPanel.hidden = false;
+          musicDock.classList.add("is-open");
+          musicToggle.setAttribute("aria-expanded", "true");
+        }
         if (!musicStarted) {
           musicStarted = true;
           try {
@@ -1861,6 +2569,7 @@
 
         return [
           ["约会对象", CONFIG.invitee],
+          ["碰面城市", CONFIG.city],
           ["约会项目", activityText],
           ["日期", formatDate(state.date)],
           ["时间", state.time],
@@ -1888,7 +2597,7 @@
         const rows = buildSummaryRows()
           .map(([label, value]) => `${label}：${value}`)
           .join("\n");
-        return `致 ${CONFIG.invitee} 的圣诞约会清单\n\n${rows}\n\n我会准时到，也会认真准备。期待见到你。`;
+        return `致 ${CONFIG.invitee} 的石家庄圣诞约会清单\n\n${rows}\n\n我会准时到，也会认真准备。期待在石家庄见到你。`;
       }
 
       function resetAll() {
@@ -1912,7 +2621,7 @@
       document.querySelectorAll("[data-go]").forEach((button) => {
         button.addEventListener("click", () => {
           if (button.dataset.startMusic === "true") {
-            startMusic();
+            startMusic(false);
           }
           showScreen(button.dataset.go);
         });
