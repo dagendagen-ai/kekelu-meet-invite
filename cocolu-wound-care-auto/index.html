@@ -1,0 +1,357 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <meta name="theme-color" content="#eef1eb" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <meta
+      name="description"
+      content="可可露的湿性愈合换药提醒与日常护理注意事项。"
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="可可露的换药提醒" />
+    <meta
+      property="og:description"
+      content="湿性愈合换药计划、倒计时与日常护理注意事项。"
+    />
+    <title>可可露的换药提醒 · 湿性愈合</title>
+    <link rel="stylesheet" href="styles.css?v=20261116-auto-1" />
+  </head>
+  <body>
+    <div class="page-texture" aria-hidden="true"></div>
+
+    <header class="site-header">
+      <a class="brand" href="#top" aria-label="回到页面顶部">
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 40 40">
+            <path d="M20 6.5c2.8 8.4 5.2 10.8 13.5 13.5-8.3 2.7-10.7 5.1-13.5 13.5-2.8-8.4-5.2-10.8-13.5-13.5C14.8 17.3 17.2 14.9 20 6.5Z" />
+            <circle cx="20" cy="20" r="4.5" />
+          </svg>
+        </span>
+        <span class="brand-copy">
+          <strong>可可露的换药提醒</strong>
+          <small>湿性愈合 · 日常护理</small>
+        </span>
+      </a>
+      <span class="privacy-label">
+        <span aria-hidden="true"></span>
+        仅保存在本机
+      </span>
+    </header>
+
+    <main id="top">
+      <section class="hero" aria-labelledby="hero-title">
+        <section class="hero-music" id="musicCard" aria-label="背景音乐">
+          <img
+            class="music-cover"
+            src="assets/ozon-cover.jpg?v=20261116-auto-1"
+            alt="《Ozon》歌曲封面"
+          />
+          <div class="music-meta">
+            <p id="musicStatus">准备播放 · 官方试听</p>
+            <strong>Ozon</strong>
+            <span>Humming Urban Stereo</span>
+          </div>
+          <div class="music-progress" aria-hidden="true">
+            <span id="musicProgress"></span>
+          </div>
+          <button
+            class="music-toggle"
+            id="musicToggle"
+            type="button"
+            aria-label="播放背景音乐"
+          >
+            <svg class="music-play-icon" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="m8 5 11 7-11 7V5Z" />
+            </svg>
+            <svg class="music-pause-icon" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M8 5v14M16 5v14" />
+            </svg>
+            <span>播放</span>
+          </button>
+          <audio
+            id="backgroundMusic"
+            src="assets/ozon-preview.m4a?v=20261116-auto-1"
+            preload="auto"
+            autoplay
+            loop
+            playsinline
+          ></audio>
+        </section>
+
+        <div class="hero-copy">
+          <p class="eyebrow">WOUND CARE REMINDER</p>
+          <h1 id="hero-title">
+            按时换药，<br />
+            <em>留意伤口变化。</em>
+          </h1>
+          <p class="hero-intro">
+            这个页面用于设置湿性愈合的换药时间、查看倒计时和护理要点。
+            换药频率请按照医生、护士或所用敷料的说明填写。
+          </p>
+
+          <div class="principle">
+            <span class="principle-icon" aria-hidden="true">
+              <svg viewBox="0 0 32 32">
+                <path d="M16 5c2 6.2 4.8 9 11 11-6.2 2-9 4.8-11 11-2-6.2-4.8-9-11-11 6.2-2 9-4.8 11-11Z" />
+              </svg>
+            </span>
+            <div>
+              <span>湿性愈合的日常原则</span>
+              <strong>保持清洁，维持合适湿度，按计划更换敷料。</strong>
+              <p>
+                不要让伤口长时间浸泡，也不要自行延长换药时间。
+                如果敷料渗漏，应及时联系医护确认是否需要处理。
+              </p>
+            </div>
+          </div>
+
+          <p class="hero-note">
+            网页关闭后不能自行定时弹窗，建议设置后同时加入手机日历。
+          </p>
+        </div>
+
+        <section
+          class="reminder-panel"
+          id="reminderPanel"
+          aria-labelledby="reminder-title"
+        >
+          <header class="reminder-head">
+            <div>
+              <p>DRESSING SCHEDULE</p>
+              <h2 id="reminder-title">换药计划</h2>
+            </div>
+            <span class="reminder-state" id="reminderState">未设置</span>
+          </header>
+
+          <div class="due-alert" id="dueAlert" hidden>
+            <span class="due-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24">
+                <path d="M12 7v5l3 2M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+              </svg>
+            </span>
+            <div>
+              <strong>到了计划换药的时间</strong>
+              <p>先查看伤口和敷料情况，再按医护教的方法更换。</p>
+            </div>
+          </div>
+
+          <div class="next-change">
+            <span id="nextLabel">下一次换药</span>
+            <strong id="nextTime">还没有设置时间</strong>
+            <p id="countdown">填写首次时间和更换间隔后，这里会显示倒计时。</p>
+          </div>
+
+          <form class="schedule-form" id="scheduleForm">
+            <label class="form-field">
+              <span>首次计划时间</span>
+              <input
+                id="startTime"
+                name="startTime"
+                type="datetime-local"
+                required
+              />
+            </label>
+
+            <div class="interval-block">
+              <label for="intervalHours">之后每隔</label>
+              <div class="interval-value">
+                <input
+                  id="intervalHours"
+                  name="intervalHours"
+                  type="number"
+                  min="1"
+                  max="168"
+                  step="1"
+                  value="24"
+                  inputmode="numeric"
+                  required
+                />
+                <span>小时</span>
+              </div>
+              <div class="interval-options" id="intervalOptions" aria-label="常用间隔">
+                <button type="button" data-hours="6">6 小时</button>
+                <button type="button" data-hours="8">8 小时</button>
+                <button type="button" data-hours="12">12 小时</button>
+                <button type="button" data-hours="24" class="is-active">24 小时</button>
+                <button type="button" data-hours="48">48 小时</button>
+              </div>
+            </div>
+
+            <p class="schedule-caution">
+              不同伤口和敷料的更换时间不同，请以医生或敷料说明为准。
+            </p>
+
+            <button class="save-button" id="saveButton" type="submit">
+              保存换药计划
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M5 12h14M13 6l6 6-6 6" />
+              </svg>
+            </button>
+          </form>
+
+          <div class="reminder-actions" id="reminderActions" hidden>
+            <button class="done-button" id="doneButton" type="button">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="m5 12 4 4L19 6" />
+              </svg>
+              这次已经换好了
+            </button>
+            <button class="action-button" id="notifyButton" type="button">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9M10 21h4" />
+              </svg>
+              页面通知
+            </button>
+            <button class="action-button" id="calendarButton" type="button">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <rect x="3" y="5" width="18" height="16" rx="2" />
+                <path d="M8 3v4m8-4v4M3 10h18M12 14v4m-2-2h4" />
+              </svg>
+              加入手机日历
+            </button>
+            <button class="edit-button" id="editButton" type="button">
+              调整换药计划
+            </button>
+          </div>
+
+          <p class="support-note" id="supportNote">
+            换药计划只存储在当前设备中。退出网页后，请依靠手机日历提醒。
+          </p>
+        </section>
+      </section>
+
+      <section class="care-section" aria-labelledby="care-title">
+        <header class="section-heading">
+          <div>
+            <p class="section-label">CARE NOTES</p>
+            <h2 id="care-title">湿性愈合护理要点</h2>
+          </div>
+          <p>
+            核心是使用合适的敷料维持适宜湿润环境，同时保持伤口清洁、
+            避免感染。以下内容用于日常提醒，具体操作以医护指导为准。
+          </p>
+        </header>
+
+        <div class="care-grid">
+          <article class="care-item">
+            <span class="item-number">01</span>
+            <div class="item-icon" aria-hidden="true">
+              <svg viewBox="0 0 32 32">
+                <path d="M11 7v5m10-5v5M8 17h16M10 12h12a3 3 0 0 1 3 3v9a3 3 0 0 1-3 3H10a3 3 0 0 1-3-3v-9a3 3 0 0 1 3-3Z" />
+              </svg>
+            </div>
+            <h3>按医嘱定时更换</h3>
+            <p>不要自行缩短或延长间隔。敷料浸湿、卷边或失去粘性时，联系医护确认是否需要处理。</p>
+          </article>
+
+          <article class="care-item">
+            <span class="item-number">02</span>
+            <div class="item-icon" aria-hidden="true">
+              <svg viewBox="0 0 32 32">
+                <path d="M11 21c-3-2-5-5-5-9a10 10 0 0 1 20 0c0 4-2 7-5 9M11 21v4h10v-4M13 17c0 1.7 1.3 3 3 3s3-1.3 3-3-3-5-3-5-3 3.3-3 5Z" />
+              </svg>
+            </div>
+            <h3>换前换后清洁双手</h3>
+            <p>使用肥皂和流动水或合适的手消毒方式。需要时按医护要求佩戴手套，敷料包装破损不要使用。</p>
+          </article>
+
+          <article class="care-item">
+            <span class="item-number">03</span>
+            <div class="item-icon" aria-hidden="true">
+              <svg viewBox="0 0 32 32">
+                <path d="M16 5v22M8 13h16M7 21c0-2 2-4 4-4h10c2 0 4 2 4 4" />
+              </svg>
+            </div>
+            <h3>敷料粘住时不要硬撕</h3>
+            <p>可按医护建议用无菌生理盐水浸湿敷料，等它松动后从边缘缓慢揭除，避免牵拉新生组织。</p>
+          </article>
+
+          <article class="care-item">
+            <span class="item-number">04</span>
+            <div class="item-icon" aria-hidden="true">
+              <svg viewBox="0 0 32 32">
+                <path d="M9 8h14v20H9zM12 5h8v6h-8zM13 16h6m-3-3v6" />
+              </svg>
+            </div>
+            <h3>不要自行加用药物</h3>
+            <p>酒精、碘伏、双氧水、粉剂或药膏是否需要，应由医护决定。不要把棉絮等材料直接填进伤口。</p>
+          </article>
+
+          <article class="care-item">
+            <span class="item-number">05</span>
+            <div class="item-icon" aria-hidden="true">
+              <svg viewBox="0 0 32 32">
+                <path d="M6 22c3-2 5-5 5-9a5 5 0 0 1 10 0c0 4 2 7 5 9M9 26h14" />
+              </svg>
+            </div>
+            <h3>保持周围皮肤干燥</h3>
+            <p>洗澡和外出时按医护教的方法防水固定，避免摩擦和抓挠，也不要让伤口长时间泡在水里。</p>
+          </article>
+
+          <article class="care-item">
+            <span class="item-number">06</span>
+            <div class="item-icon" aria-hidden="true">
+              <svg viewBox="0 0 32 32">
+                <path d="M8 7h16v20H8zM11 12h10M11 17h10M11 22h6" />
+              </svg>
+            </div>
+            <h3>换药时顺便观察</h3>
+            <p>留意大小、颜色、渗液量、气味和疼痛变化。可以在相同光线下拍照，方便复诊时说明变化。</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="warning-section" aria-labelledby="warning-title">
+        <div class="warning-copy">
+          <p class="section-label">WHEN TO SEEK HELP</p>
+          <h2 id="warning-title">出现这些情况，及时联系医护。</h2>
+          <p>
+            不要等到下一次计划换药或下一次复诊。若情况明显或持续加重，
+            请尽快联系医生、护士或就近就医。
+          </p>
+        </div>
+
+        <div class="warning-list" role="list">
+          <span role="listitem">红肿范围明显扩大</span>
+          <span role="listitem">疼痛、肿胀或发热感持续加重</span>
+          <span role="listitem">出现脓性渗液或明显异味</span>
+          <span role="listitem">渗液突然增多并持续浸透敷料</span>
+          <span role="listitem">发热、发冷或精神状态明显变差</span>
+          <span role="listitem">伤口发黑、发紫、颜色异常</span>
+          <span role="listitem">出现新的麻木或剧烈疼痛</span>
+          <span role="listitem">出血按压后仍不能停止</span>
+        </div>
+      </section>
+
+      <aside class="disclaimer">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <circle cx="12" cy="12" r="9" />
+          <path d="M12 10v6M12 7h.01" />
+        </svg>
+        <p>
+          本页面只提供换药提醒和一般护理信息，不能替代医生的诊断与个体化方案。
+          伤口较深、位于面部或关节附近、被动物咬伤，或可可露有糖尿病、
+          免疫力较低等情况，请优先遵循专业医护意见。
+        </p>
+      </aside>
+
+    </main>
+
+    <footer class="site-footer">
+      <span>可可露的换药提醒</span>
+      <span>湿性愈合 · 日常护理</span>
+    </footer>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+    <script src="app.js?v=20261116-auto-1"></script>
+  </body>
+</html>
