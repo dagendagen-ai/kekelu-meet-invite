@@ -520,7 +520,8 @@ main,
 .save-button,
 .done-button,
 .action-button,
-.edit-button {
+.edit-button,
+.calendar-direct {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -542,13 +543,15 @@ main,
 
 .save-button:hover,
 .done-button:hover,
-.action-button:hover {
+.action-button:hover,
+.calendar-direct:hover {
   transform: translateY(-1px);
 }
 
 .save-button svg,
 .done-button svg,
-.action-button svg {
+.action-button svg,
+.calendar-direct svg {
   width: 16px;
   fill: none;
   stroke: currentColor;
@@ -571,6 +574,29 @@ main,
   color: #243b30;
   background: #d4e2d8;
   font-size: 11px;
+}
+
+.calendar-direct {
+  grid-column: 1 / -1;
+  min-height: 48px;
+  gap: 8px;
+  padding: 10px 14px;
+  color: #253c31;
+  background: #eef4ef;
+  font-size: 11px;
+  text-decoration: none;
+}
+
+.calendar-direct span {
+  font-weight: 700;
+}
+
+.calendar-direct small {
+  padding: 3px 6px;
+  border-radius: 999px;
+  color: #496657;
+  background: rgba(64, 95, 80, 0.1);
+  font-size: 7px;
 }
 
 .action-button {

@@ -23,8 +23,9 @@ const elements = {
   saveButton: document.getElementById("saveButton"),
   reminderActions: document.getElementById("reminderActions"),
   doneButton: document.getElementById("doneButton"),
+  calendarLink: document.getElementById("calendarLink"),
   notifyButton: document.getElementById("notifyButton"),
-  calendarButton: document.getElementById("calendarButton"),
+  downloadCalendarButton: document.getElementById("downloadCalendarButton"),
   editButton: document.getElementById("editButton"),
   musicCard: document.getElementById("musicCard"),
   musicStatus: document.getElementById("musicStatus"),
@@ -162,19 +163,19 @@ function updateSupportNote() {
 
   if (isWeChatBrowser()) {
     message =
-      "微信内网页通知通常不可用，建议点“加入手机日历”。退出微信后，手机系统仍会提醒。";
+      "微信内网页通知通常不可用，建议点“打开日历添加”。如网页日历打不开，再用“导入30天日历”。";
   } else if (permission === "granted") {
     message =
-      "页面通知已开启。浏览器允许时会在到期后提醒，仍建议同时加入手机日历。";
+      "页面通知已开启。浏览器允许时会在到期后提醒，仍建议同时打开或导入手机日历。";
   } else if (permission === "denied") {
     message =
-      "页面通知已被浏览器关闭。请使用“加入手机日历”获得更稳定的提醒。";
+      "页面通知已被浏览器关闭。请使用“打开日历添加”获得更稳定的提醒。";
   } else if (permission === "unsupported") {
     message =
-      "当前浏览器不支持网页通知，请使用“加入手机日历”接收系统提醒。";
+      "当前浏览器不支持网页通知，请使用“打开日历添加”或导入30天日历。";
   } else if (!window.isSecureContext) {
     message =
-      "网页通知需要 HTTPS。正式发布后可以使用，或直接加入手机日历。";
+      "网页通知需要 HTTPS。正式发布后可以使用，或直接打开日历添加提醒。";
   }
 
   elements.supportNote.textContent = message;
@@ -208,6 +209,8 @@ function refreshReminder() {
   updateSupportNote();
 
   if (!configured) {
+    elements.calendarLink.href = "#";
+    elements.calendarLink.setAttribute("aria-disabled", "true");
     elements.reminderPanel.classList.remove("is-due");
     elements.dueAlert.hidden = true;
     elements.reminderState.textContent = "未设置";
@@ -217,6 +220,9 @@ function refreshReminder() {
       "填写首次时间和更换间隔后，这里会显示倒计时。";
     return;
   }
+
+  elements.calendarLink.href = buildCalendarLink();
+  elements.calendarLink.setAttribute("aria-disabled", "false");
 
   const dueAt = new Date(state.nextAt);
   const distance = dueAt.getTime() - Date.now();
@@ -321,7 +327,7 @@ async function requestNotifications() {
   const permission = notificationPermission();
 
   if (isWeChatBrowser()) {
-    showToast("微信内建议用“加入手机日历”来提醒");
+    showToast("微信内建议用“打开日历添加”来提醒");
     return;
   }
 
@@ -366,6 +372,42 @@ async function requestNotifications() {
   }
 }
 
+const CALENDAR_COVERAGE_DAYS = 30;
+
+function calendarDescription() {
+  return "按医生、护士或敷料说明更换敷料。保持伤口清洁和适宜湿度，不要自行延长换药间隔。若红肿扩大、疼痛加重、出现脓性渗液或异味、发热，请及时联系医护。";
+}
+
+function formatGoogleDate(date) {
+  return [
+    date.getUTCFullYear(),
+    pad(date.getUTCMonth() + 1),
+    pad(date.getUTCDate()),
+    "T",
+    pad(date.getUTCHours()),
+    pad(date.getUTCMinutes()),
+    pad(date.getUTCSeconds()),
+    "Z",
+  ].join("");
+}
+
+function buildCalendarLink() {
+  const start = new Date(state.nextAt);
+  const end = new Date(start.getTime() + 10 * 60 * 1000);
+  const until = new Date(
+    start.getTime() + CALENDAR_COVERAGE_DAYS * 24 * 60 * 60 * 1000,
+  );
+  const params = new URLSearchParams({
+    action: "TEMPLATE",
+    text: "可可露，按计划检查并更换敷料",
+    dates: `${formatGoogleDate(start)}/${formatGoogleDate(end)}`,
+    details: calendarDescription(),
+    recur: `RRULE:FREQ=HOURLY;INTERVAL=${state.intervalHours};UNTIL=${formatGoogleDate(until)}`,
+    ctz: "Asia/Shanghai",
+  });
+  return `https://calendar.google.com/calendar/render?${params.toString()}`;
+}
+
 function formatIcsLocal(date) {
   return [
     date.getFullYear(),
@@ -399,16 +441,18 @@ function escapeIcsText(text) {
     .replace(/;/g, "\\;");
 }
 
-function downloadCalendar() {
+function downloadCalendarFile() {
   if (!isConfigured()) {
     showToast("请先保存换药计划");
     return;
   }
 
   const start = new Date(state.nextAt);
-  const until = new Date(start.getTime() + 30 * 24 * 60 * 60 * 1000);
-  const description =
-    "按医生、护士或敷料说明更换敷料。保持伤口清洁和适宜湿度，不要自行延长换药间隔。若红肿扩大、疼痛加重、出现脓性渗液或异味、发热，请及时联系医护。";
+  const until = new Date(
+    start.getTime() + CALENDAR_COVERAGE_DAYS * 24 * 60 * 60 * 1000,
+  );
+  const intervalMs = state.intervalHours * 60 * 60 * 1000;
+  const description = calendarDescription();
   const lines = [
     "BEGIN:VCALENDAR",
     "VERSION:2.0",
@@ -424,22 +468,32 @@ function downloadCalendar() {
     "TZNAME:CST",
     "END:STANDARD",
     "END:VTIMEZONE",
-    "BEGIN:VEVENT",
-    `UID:cocolu-wound-care-${start.getTime()}@wound-care.local`,
-    `DTSTAMP:${formatIcsUtc(new Date())}`,
-    `DTSTART;TZID=Asia/Shanghai:${formatIcsLocal(start)}`,
-    "DURATION:PT10M",
-    `RRULE:FREQ=HOURLY;INTERVAL=${state.intervalHours};UNTIL=${formatIcsUtc(until)}`,
-    "SUMMARY:可可露，按计划检查并更换敷料",
-    `DESCRIPTION:${escapeIcsText(description)}`,
-    "BEGIN:VALARM",
-    "TRIGGER:-PT10M",
-    "ACTION:DISPLAY",
-    "DESCRIPTION:换药时间快到了，请先准备所需敷料",
-    "END:VALARM",
-    "END:VEVENT",
-    "END:VCALENDAR",
   ];
+
+  let eventCount = 0;
+  for (
+    let eventStart = new Date(start);
+    eventStart.getTime() < until.getTime();
+    eventStart = new Date(eventStart.getTime() + intervalMs)
+  ) {
+    eventCount += 1;
+    lines.push(
+      "BEGIN:VEVENT",
+      `UID:cocolu-wound-care-${eventStart.getTime()}@wound-care.local`,
+      `DTSTAMP:${formatIcsUtc(new Date())}`,
+      `DTSTART;TZID=Asia/Shanghai:${formatIcsLocal(eventStart)}`,
+      "DURATION:PT10M",
+      "SUMMARY:可可露，按计划检查并更换敷料",
+      `DESCRIPTION:${escapeIcsText(description)}`,
+      "BEGIN:VALARM",
+      "TRIGGER:-PT10M",
+      "ACTION:DISPLAY",
+      "DESCRIPTION:换药时间快到了，请先准备所需敷料",
+      "END:VALARM",
+      "END:VEVENT",
+    );
+  }
+  lines.push("END:VCALENDAR");
 
   const blob = new Blob([lines.join("\r\n")], {
     type: "text/calendar;charset=utf-8",
@@ -447,7 +501,7 @@ function downloadCalendar() {
   const url = URL.createObjectURL(blob);
   const link = document.createElement("a");
   link.href = url;
-  link.download = "可可露-换药提醒.ics";
+  link.download = "可可露-换药提醒-30天.ics";
   document.body.appendChild(link);
   link.click();
   link.remove();
@@ -455,8 +509,8 @@ function downloadCalendar() {
 
   showToast(
     isWeChatBrowser()
-      ? "日历已生成；微信若未打开，请点右上角用浏览器打开后再试"
-      : "日历提醒已生成，打开文件并添加到手机日历",
+      ? `已生成30天内 ${eventCount} 次提醒；微信若未打开，请用浏览器导入`
+      : `已生成30天内 ${eventCount} 次换药提醒`,
   );
 }
 
@@ -537,7 +591,7 @@ function bindEvents() {
 
   elements.doneButton.addEventListener("click", markAsDone);
   elements.notifyButton.addEventListener("click", requestNotifications);
-  elements.calendarButton.addEventListener("click", downloadCalendar);
+  elements.downloadCalendarButton.addEventListener("click", downloadCalendarFile);
   elements.musicToggle.addEventListener("click", toggleMusic);
   elements.backgroundMusic.addEventListener("play", () => {
     waitingForMusicGesture = false;

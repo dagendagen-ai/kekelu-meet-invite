@@ -23,7 +23,7 @@
       content="湿性愈合换药计划、倒计时与日常护理注意事项。"
     />
     <title>可可露的换药提醒 · 湿性愈合</title>
-    <link rel="stylesheet" href="styles.css?v=20261116-auto-1" />
+    <link rel="stylesheet" href="styles.css?v=20261116-calendar-2" />
   </head>
   <body>
     <div class="page-texture" aria-hidden="true"></div>
@@ -52,7 +52,7 @@
         <section class="hero-music" id="musicCard" aria-label="背景音乐">
           <img
             class="music-cover"
-            src="assets/ozon-cover.jpg?v=20261116-auto-1"
+            src="assets/ozon-cover.jpg?v=20261116-calendar-2"
             alt="《Ozon》歌曲封面"
           />
           <div class="music-meta">
@@ -79,7 +79,7 @@
           </button>
           <audio
             id="backgroundMusic"
-            src="assets/ozon-preview.m4a?v=20261116-auto-1"
+            src="assets/ozon-preview.m4a?v=20261116-calendar-2"
             preload="auto"
             autoplay
             loop
@@ -188,6 +188,7 @@
 
             <p class="schedule-caution">
               不同伤口和敷料的更换时间不同，请以医生或敷料说明为准。
+              同步到日历时会生成 30 天提醒。
             </p>
 
             <button class="save-button" id="saveButton" type="submit">
@@ -205,18 +206,35 @@
               </svg>
               这次已经换好了
             </button>
+            <a
+              class="calendar-direct"
+              id="calendarLink"
+              href="#"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <rect x="3" y="5" width="18" height="16" rx="2" />
+                <path d="M8 3v4m8-4v4M3 10h18M12 14v4m-2-2h4" />
+              </svg>
+              <span>打开日历添加</span>
+              <small>30 天重复</small>
+            </a>
             <button class="action-button" id="notifyButton" type="button">
               <svg viewBox="0 0 24 24" aria-hidden="true">
                 <path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9M10 21h4" />
               </svg>
               页面通知
             </button>
-            <button class="action-button" id="calendarButton" type="button">
+            <button
+              class="action-button"
+              id="downloadCalendarButton"
+              type="button"
+            >
               <svg viewBox="0 0 24 24" aria-hidden="true">
-                <rect x="3" y="5" width="18" height="16" rx="2" />
-                <path d="M8 3v4m8-4v4M3 10h18M12 14v4m-2-2h4" />
+                <path d="M12 3v12m-5-5 5 5 5-5M4 20h16" />
               </svg>
-              加入手机日历
+              导入30天日历
             </button>
             <button class="edit-button" id="editButton" type="button">
               调整换药计划
@@ -352,6 +370,6 @@
     </footer>
 
     <div class="toast" id="toast" role="status" aria-live="polite"></div>
-    <script src="app.js?v=20261116-auto-1"></script>
+    <script src="app.js?v=20261116-calendar-2"></script>
   </body>
 </html>
