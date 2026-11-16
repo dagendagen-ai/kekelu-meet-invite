@@ -26,14 +26,17 @@ const elements = {
   notifyButton: document.getElementById("notifyButton"),
   calendarButton: document.getElementById("calendarButton"),
   editButton: document.getElementById("editButton"),
-  musicLoadButton: document.getElementById("musicLoadButton"),
-  musicPlayer: document.getElementById("musicPlayer"),
-  musicFrame: document.getElementById("musicFrame"),
+  musicCard: document.getElementById("musicCard"),
+  musicStatus: document.getElementById("musicStatus"),
+  musicToggle: document.getElementById("musicToggle"),
+  musicProgress: document.getElementById("musicProgress"),
+  backgroundMusic: document.getElementById("backgroundMusic"),
   supportNote: document.getElementById("supportNote"),
   toast: document.getElementById("toast"),
 };
 
 let toastTimer = 0;
+let waitingForMusicGesture = false;
 
 function getSavedState() {
   try {
@@ -457,21 +460,58 @@ function downloadCalendar() {
   );
 }
 
-function loadMusic() {
-  elements.musicLoadButton.disabled = true;
-  elements.musicPlayer.hidden = false;
-  elements.musicLoadButton.hidden = true;
-  elements.musicFrame.src =
-    "https://music.163.com/outchain/player?type=2&id=5378935&auto=1&height=66";
-  showToast("正在载入《Ozon》");
+function updateMusicUI() {
+  const audio = elements.backgroundMusic;
+  const playing = !audio.paused && !audio.ended;
+  elements.musicToggle.classList.toggle("is-playing", playing);
+  elements.musicToggle.setAttribute(
+    "aria-label",
+    playing ? "暂停背景音乐" : "播放背景音乐",
+  );
+  elements.musicToggle.querySelector("span").textContent =
+    playing ? "暂停" : "播放";
+  elements.musicCard.classList.toggle("is-playing", playing);
+  elements.musicStatus.textContent = playing
+    ? "正在播放 · 官方试听"
+    : waitingForMusicGesture
+      ? "浏览器已拦截 · 点一下页面播放"
+      : "已暂停 · 点击继续";
+}
 
-  elements.musicFrame.addEventListener(
-    "load",
+function enableMusicOnFirstClick() {
+  if (waitingForMusicGesture) return;
+  waitingForMusicGesture = true;
+  document.addEventListener(
+    "click",
     () => {
-      showToast("播放器已加载；如未自动播放，请按播放器里的播放键");
+      attemptMusicPlay();
     },
     { once: true },
   );
+}
+
+async function attemptMusicPlay() {
+  const audio = elements.backgroundMusic;
+  try {
+    audio.volume = 0.55;
+    await audio.play();
+    waitingForMusicGesture = false;
+    updateMusicUI();
+  } catch (error) {
+    enableMusicOnFirstClick();
+    updateMusicUI();
+  }
+}
+
+function toggleMusic() {
+  const audio = elements.backgroundMusic;
+  if (audio.paused) {
+    attemptMusicPlay();
+  } else {
+    audio.pause();
+    waitingForMusicGesture = false;
+    updateMusicUI();
+  }
 }
 
 function bindEvents() {
@@ -498,7 +538,20 @@ function bindEvents() {
   elements.doneButton.addEventListener("click", markAsDone);
   elements.notifyButton.addEventListener("click", requestNotifications);
   elements.calendarButton.addEventListener("click", downloadCalendar);
-  elements.musicLoadButton.addEventListener("click", loadMusic);
+  elements.musicToggle.addEventListener("click", toggleMusic);
+  elements.backgroundMusic.addEventListener("play", () => {
+    waitingForMusicGesture = false;
+    updateMusicUI();
+  });
+  elements.backgroundMusic.addEventListener("pause", updateMusicUI);
+  elements.backgroundMusic.addEventListener("timeupdate", () => {
+    const audio = elements.backgroundMusic;
+    const progress =
+      Number.isFinite(audio.duration) && audio.duration > 0
+        ? (audio.currentTime / audio.duration) * 100
+        : 0;
+    elements.musicProgress.style.width = `${progress}%`;
+  });
   elements.editButton.addEventListener("click", () => {
     state.editing = true;
     refreshReminder();
@@ -530,6 +583,8 @@ function init() {
   bindEvents();
   refreshReminder();
   window.setInterval(refreshReminder, 1000);
+  attemptMusicPlay();
+  document.addEventListener("WeixinJSBridgeReady", attemptMusicPlay, false);
 }
 
 init();
