@@ -26,6 +26,9 @@ const elements = {
   notifyButton: document.getElementById("notifyButton"),
   calendarButton: document.getElementById("calendarButton"),
   editButton: document.getElementById("editButton"),
+  musicLoadButton: document.getElementById("musicLoadButton"),
+  musicPlayer: document.getElementById("musicPlayer"),
+  musicFrame: document.getElementById("musicFrame"),
   supportNote: document.getElementById("supportNote"),
   toast: document.getElementById("toast"),
 };
@@ -454,6 +457,23 @@ function downloadCalendar() {
   );
 }
 
+function loadMusic() {
+  elements.musicLoadButton.disabled = true;
+  elements.musicPlayer.hidden = false;
+  elements.musicLoadButton.hidden = true;
+  elements.musicFrame.src =
+    "https://music.163.com/outchain/player?type=2&id=5378935&auto=1&height=66";
+  showToast("正在载入《Ozon》");
+
+  elements.musicFrame.addEventListener(
+    "load",
+    () => {
+      showToast("播放器已加载；如未自动播放，请按播放器里的播放键");
+    },
+    { once: true },
+  );
+}
+
 function bindEvents() {
   elements.scheduleForm.addEventListener("submit", saveSchedule);
   elements.intervalHours.addEventListener("input", () => {
@@ -478,6 +498,7 @@ function bindEvents() {
   elements.doneButton.addEventListener("click", markAsDone);
   elements.notifyButton.addEventListener("click", requestNotifications);
   elements.calendarButton.addEventListener("click", downloadCalendar);
+  elements.musicLoadButton.addEventListener("click", loadMusic);
   elements.editButton.addEventListener("click", () => {
     state.editing = true;
     refreshReminder();
